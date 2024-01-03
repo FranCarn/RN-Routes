@@ -1,20 +1,12 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
+import 'react-native-gesture-handler';
 import React from 'react';
-import {View} from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {NavigationContainer} from '@react-navigation/native';
+import {MainNavigator} from './src/navigator/Navigator';
 
-function App(): React.JSX.Element {
+export default function App(): React.JSX.Element {
   return (
-    <View>
-      <Icon name="star-outline" size={50} color="red" />
-    </View>
+    <NavigationContainer>
+      <MainNavigator />
+    </NavigationContainer>
   );
 }
-
-export default App;
