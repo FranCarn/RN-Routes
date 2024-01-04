@@ -12,8 +12,8 @@ export const MainNavigator = () => {
           backgroundColor: '#2a2a2a',
         },
       }}>
-      <Stack.Screen name="MapScreen" component={MapScreen} />
       <Stack.Screen name="PermissionsScreen" component={PermissionsScreen} />
+      <Stack.Screen name="MapScreen" component={MapScreen} />
     </Stack.Navigator>
   );
 };
