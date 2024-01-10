@@ -1,6 +1,11 @@
-import React, {createContext, useState} from 'react';
-import {Platform} from 'react-native';
-import {PERMISSIONS, PermissionStatus, request} from 'react-native-permissions';
+import React, {createContext, useEffect, useState} from 'react';
+import {AppState, Platform} from 'react-native';
+import {
+  PERMISSIONS,
+  PermissionStatus,
+  check,
+  request,
+} from 'react-native-permissions';
 
 export interface PermissionsState {
   locationStatus: PermissionStatus;
@@ -38,7 +43,24 @@ export const PermissionsProvider = ({
     setPermissions(prev => ({...prev, locationStatus: permisionStatus}));
   };
 
-  const checkLocationPermission = () => {};
+  const checkLocationPermission = async () => {
+    let permisionStatus: PermissionStatus;
+
+    if (Platform.OS === 'ios') {
+      permisionStatus = await check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+    } else {
+      permisionStatus = await check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION);
+    }
+
+    setPermissions(prev => ({...prev, locationStatus: permisionStatus}));
+  };
+
+  useEffect(() => {
+    AppState.addEventListener('change', state => {
+      if (state !== 'active') return;
+      checkLocationPermission();
+    });
+  }, []);
 
   return (
     <PermissionsContext.Provider
