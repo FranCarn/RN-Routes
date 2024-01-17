@@ -14,6 +14,7 @@ export const Map = ({markers}: Props) => {
   return (
     <>
       <MapView
+        showsUserLocation
         provider={PROVIDER_GOOGLE}
         style={{flex: 1}}
         region={{
