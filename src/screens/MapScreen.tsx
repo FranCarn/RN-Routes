@@ -1,6 +1,6 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import MapView, {PROVIDER_GOOGLE} from 'react-native-maps';
+import {View} from 'react-native';
+import {Map} from '../components/Map';
 
 export const MapScreen = () => {
   return (
@@ -12,24 +12,7 @@ export const MapScreen = () => {
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-      <Text>Map Screen</Text>
-      <View
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginTop: 100,
-        }}>
-        <MapView
-          provider={PROVIDER_GOOGLE}
-          style={{flex: 1}}
-          region={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-          }}
-        />
-      </View>
+      <Map />
     </View>
   );
 };
