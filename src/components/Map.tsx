@@ -5,12 +5,18 @@ import MapView, {
   Marker,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
+import {useLocation} from '../hooks/useLocation';
+import {LoadingScreen} from '../screens';
 
 interface Props {
   markers?: MapMarkerProps[];
 }
 
 export const Map = ({markers}: Props) => {
+  const {location, hasLocation} = useLocation();
+
+  if (!hasLocation) return <LoadingScreen />;
+
   return (
     <>
       <MapView
@@ -18,8 +24,8 @@ export const Map = ({markers}: Props) => {
         provider={PROVIDER_GOOGLE}
         style={{flex: 1}}
         region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: location.latitude,
+          longitude: location.longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
         }}>
