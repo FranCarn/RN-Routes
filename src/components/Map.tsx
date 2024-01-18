@@ -7,6 +7,7 @@ import MapView, {
 } from 'react-native-maps';
 import {useLocation} from '../hooks/useLocation';
 import {LoadingScreen} from '../screens';
+import {FabIcon} from './FabIcon';
 
 interface Props {
   markers?: MapMarkerProps[];
@@ -33,6 +34,11 @@ export const Map = ({markers}: Props) => {
           <Marker key={item.title} {...item} />
         ))}
       </MapView>
+      <FabIcon
+        iconName="star-outline"
+        onPress={() => null}
+        style={{position: 'absolute', bottom: 20, right: 20}}
+      />
     </>
   );
 };
