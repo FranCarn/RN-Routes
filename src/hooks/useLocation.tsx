@@ -11,18 +11,28 @@ export const useLocation = () => {
     longitude: 0,
   });
 
+  const getCurrentLocation = (): Promise<Location> => {
+    return new Promise((res, rej) => {
+      Geolocation.getCurrentPosition(
+        ({coords}) => {
+          res(coords);
+        },
+        err => rej(err),
+        {
+          enableHighAccuracy: true,
+        },
+      );
+    });
+  };
+
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      ({coords}) => {
-        setLocation(coords);
+    getCurrentLocation()
+      .then(res => {
+        setLocation(res);
         setHasLocation(true);
-      },
-      err => setHasLocation(false),
-      {
-        enableHighAccuracy: true,
-      },
-    );
+      })
+      .catch(() => setHasLocation(false));
   }, []);
 
-  return {location, hasLocation};
+  return {location, hasLocation, getCurrentLocation};
 };
