@@ -15,17 +15,21 @@ interface Props {
 
 export const Map = ({markers}: Props) => {
   const {
+    hasLocation,
     location,
     userLocation,
-    hasLocation,
-    getCurrentLocation,
     followUserLocation,
+    getCurrentLocation,
+    stopFollowUserLocation,
   } = useLocation();
   const mapViewRef = useRef<MapView>();
+  const following = useRef<boolean>(true);
+
   if (!hasLocation) return <LoadingScreen />;
 
   const centerPosition = async () => {
     const location = await getCurrentLocation();
+    following.current = true;
     mapViewRef.current?.animateCamera({
       center: location,
     });
@@ -33,10 +37,13 @@ export const Map = ({markers}: Props) => {
 
   useEffect(() => {
     followUserLocation();
-    return () => {};
+    return () => {
+      stopFollowUserLocation();
+    };
   }, []);
 
   useEffect(() => {
+    if (!following.current) return;
     mapViewRef.current?.animateCamera({
       center: userLocation,
     });
@@ -54,7 +61,8 @@ export const Map = ({markers}: Props) => {
           longitude: location.longitude,
           latitudeDelta: 0.015,
           longitudeDelta: 0.0121,
-        }}>
+        }}
+        onTouchStart={() => (following.current = false)}>
         {markers?.map(item => (
           <Marker key={item.title} {...item} />
         ))}
