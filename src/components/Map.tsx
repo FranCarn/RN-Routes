@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import MapView, {
   MapMarkerProps,
   Marker,
+  Polyline,
   PROVIDER_GOOGLE,
 } from 'react-native-maps';
 import {useLocation} from '../hooks/useLocation';
@@ -17,6 +18,7 @@ export const Map = ({markers}: Props) => {
   const {
     hasLocation,
     location,
+    routeLines,
     userLocation,
     followUserLocation,
     getCurrentLocation,
@@ -66,6 +68,11 @@ export const Map = ({markers}: Props) => {
         {markers?.map(item => (
           <Marker key={item.title} {...item} />
         ))}
+        <Polyline
+          coordinates={routeLines}
+          strokeColor="black"
+          strokeWidth={3}
+        />
       </MapView>
       <FabIcon
         iconName="compass-outline"
